@@ -1,0 +1,31 @@
+GESTOR ESCOLAR - ENTREGA PRONTA
+
+Pasta pronta:
+C:\Users\Luiz\Downloads\GestorEscolar_PRONTO
+
+O que ja esta feito:
+- codigo ajustado para reforcar o bloqueio de senha no modo aluno
+- script ADB pronto: configurar_tablets.bat
+- comandos ADB prontos: COMANDOS_ADB_PRONTOS.txt
+- manual rapido: README.md
+
+O que ainda falta para usar:
+1. Compilar o APK no Android Studio
+2. Colocar o arquivo GestorEscolar.apk nesta pasta
+3. Ter o adb.exe na mesma pasta do .bat ou no PATH do Windows
+
+Compilacao no Android Studio:
+1. Abrir a pasta do projeto
+2. Build > Build APK(s)
+3. Pegar o arquivo em:
+   app\build\outputs\apk\debug\app-debug.apk
+4. Copiar para esta pasta e renomear para:
+   GestorEscolar.apk
+
+Depois:
+1. Rodar configurar_tablets.bat
+2. Escolher a opcao 1
+3. Abrir o app no tablet
+4. Criar a senha admin
+5. Escolher os apps permitidos
+6. Ativar o modo aluno

@@ -1,0 +1,30 @@
+# Gradle e builds
+.gradle/
+**/build/
+build/
+captures/
+.externalNativeBuild/
+.cxx/
+
+# Configuração local
+local.properties
+.env
+.env.*
+
+# Assinatura
+*.jks
+*.keystore
+keystore.properties
+
+# IDEs
+.idea/
+*.iml
+.vscode/
+
+# Sistema
+.DS_Store
+Thumbs.db
+
+# Logs e temporários
+*.log
+*.tmp
