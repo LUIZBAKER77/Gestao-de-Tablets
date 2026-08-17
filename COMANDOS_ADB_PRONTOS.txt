@@ -1,0 +1,60 @@
+GESTOR ESCOLAR - COMANDOS ADB PRONTOS
+
+1) Ver tablets conectados
+adb devices
+
+2) Instalar ou atualizar o APK
+adb install -r GestorEscolar.apk
+
+3) Aplicar Device Owner
+adb shell dpm set-device-owner com.escola.tabletmanager/.SchoolDeviceAdminReceiver
+
+4) Ver quem e o Device Owner
+adb shell dpm list-owners
+
+5) Confirmar que o app esta instalado
+adb shell pm path com.escola.tabletmanager
+
+6) Ver modelo do tablet
+adb shell getprop ro.product.model
+
+7) Ver versao do Android
+adb shell getprop ro.build.version.release
+
+8) Ver politicas relacionadas a senha
+adb shell dumpsys device_policy | findstr /i "no_config_credentials password keyguard"
+
+9) Descobrir qual componente responde por SET_NEW_PASSWORD
+adb shell cmd package resolve-activity --brief -a android.app.action.SET_NEW_PASSWORD
+
+10) Desativar o resolvedor principal de nova senha
+adb shell pm disable-user --user 0 com.android.settings/.password.SetNewPasswordActivity
+
+11) Desativar telas classicas de senha/PIN/padrao
+adb shell pm disable-user --user 0 com.android.settings/.password.ChooseLockGeneric
+adb shell pm disable-user --user 0 com.android.settings/.password.ChooseLockPassword
+adb shell pm disable-user --user 0 com.android.settings/.password.ChooseLockPattern
+
+12) Restaurar telas de senha/PIN/padrao
+adb shell pm enable com.android.settings/.password.SetNewPasswordActivity
+adb shell pm enable com.android.settings/.password.ChooseLockGeneric
+adb shell pm enable com.android.settings/.password.ChooseLockPassword
+adb shell pm enable com.android.settings/.password.ChooseLockPattern
+
+13) Ver logs do app
+adb logcat -d | findstr /i "GestorEscolar Token de reset Keyguard senha"
+
+14) Remover Device Owner em emergencia
+adb shell dpm remove-active-admin --user 0 com.escola.tabletmanager/.SchoolDeviceAdminReceiver
+
+Checklist antes do Device Owner:
+- conta Google removida
+- tablet sem senha/PIN/padrao
+- APK instalado
+- depuracao USB autorizada
+
+Observacao importante:
+- essa blindagem ADB e um workaround cirurgico
+- ela tenta bloquear as telas de senha sem trocar o launcher Samsung
+- dependendo da versao do Android / One UI, alguns componentes podem mudar de nome
+- por isso o .bat tenta descobrir e desativar o resolvedor real automaticamente

@@ -1,0 +1,2 @@
+-keep class com.escola.tabletmanager.** { *; }
+-keep class android.app.admin.** { *; }
