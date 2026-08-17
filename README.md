@@ -41,6 +41,4 @@ adb shell dpm list-owners
 
 > O modo `Device Owner` concede privilégios administrativos. Teste as mudanças em um aparelho de homologação antes de distribuir uma nova versão.
 
-## Distribuição
 
-O APK publicado fica no repositório público [Gestao-de-Tablets-APK](https://github.com/LUIZBAKER77/Gestao-de-Tablets-APK).
