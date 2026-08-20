@@ -1,0 +1,43 @@
+name: Build Release APK
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      - name: Decode keystore
+        run: echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 -d > release.keystore
+
+      - name: Build signed release APK
+        env:
+          RELEASE_KEYSTORE_PATH: ${{ github.workspace }}/release.keystore
+          RELEASE_KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+          RELEASE_KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+          RELEASE_KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+        run: ./gradlew assembleRelease --no-daemon
+
+      - name: Remove keystore
+        if: always()
+        run: rm -f release.keystore
+
+      - name: Upload APK artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: gestao-de-tablets-release
+          path: app/build/outputs/apk/release/*.apk
