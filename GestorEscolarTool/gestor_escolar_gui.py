@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 """
 Gestor Escolar - Configurador de Tablets
-Colegio Santa Catarina
 
 App desktop com interface grafica para instalar e configurar o app
 Gestor Escolar nos tablets da escola via ADB, sem precisar de terminal.
@@ -253,7 +252,7 @@ class App(ctk.CTk):
         info.pack(fill="both", expand=True, padx=10, pady=10)
         info.insert("1.0",
             "Bem-vindo!\n\n"
-            "Este programa configura os tablets do Colegio Santa Catarina com o app "
+            "Este programa configura os tablets da sua escola com o app "
             "Gestor Escolar, sem precisar usar linha de comando.\n\n"
             "Antes de comecar, conecte o tablet no PC via cabo USB e:\n"
             "  1. Ative a Depuracao USB no tablet\n"
