@@ -41,3 +41,18 @@ jobs:
         with:
           name: gestao-de-tablets-release
           path: app/build/outputs/apk/release/*.apk
+
+      - name: Publish APK to distribution repo
+        env:
+          PUSH_TOKEN: ${{ secrets.APK_REPO_PUSH_TOKEN }}
+        run: |
+          APK_FILE=$(ls app/build/outputs/apk/release/*.apk | head -n1)
+          git clone "https://${PUSH_TOKEN}@github.com/LUIZBAKER77/Gestao-de-Tablets-APK.git" apk-repo
+          rm -f apk-repo/Gestao-de-Tablets-debug.apk
+          cp "$APK_FILE" apk-repo/Gestao-de-Tablets-release.apk
+          cd apk-repo
+          git config user.email "dev@gestaodetablets.local"
+          git config user.name "Gestao de Tablets Bot"
+          git add -A
+          git commit -m "Publica APK de release assinado (build automatica via GitHub Actions)" || echo "Nada para commitar"
+          git push origin main
