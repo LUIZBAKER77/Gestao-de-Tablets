@@ -1,0 +1,54 @@
+GESTOR ESCOLAR - CONFIGURADOR DE TABLETS
+==========================================
+
+O QUE E ISSO
+-------------
+Um programa com interface grafica para instalar e configurar o app
+Gestor Escolar nos tablets da escola, sem precisar usar linha de comando.
+
+Ele baixa o ADB sozinho na primeira vez que abre, entao voce so precisa
+ter o Python instalado UMA VEZ para gerar o .exe (depois disso, o .exe
+funciona em qualquer PC Windows, mesmo sem Python).
+
+
+COMO GERAR O .EXE (fazer uma unica vez)
+-----------------------------------------
+1. Instale o Python, se ainda nao tiver:
+   https://www.python.org/downloads/
+   IMPORTANTE: marque "Add Python to PATH" durante a instalacao.
+
+2. De um duplo-clique em "build_exe.bat" nesta pasta.
+
+3. Aguarde. No final vai aparecer o caminho:
+   dist\GestorEscolar_Configurador.exe
+
+4. Pronto! Esse .exe pode ser copiado para qualquer PC da escola
+   (pendrive, OneDrive, etc) e funciona direto, sem instalar nada.
+
+
+COMO USAR O PROGRAMA
+----------------------
+Dentro do proprio programa tem uma aba "❓ Modo de Usar" com o passo a
+passo completo. Resumindo:
+
+1. Abra o GestorEscolar_Configurador.exe
+   (na primeira vez, ele baixa o ADB sozinho — aguarde aparecer
+   "ADB pronto" no canto superior direito)
+
+2. Prepare o tablet: ative Depuracao USB, remova contas e senha.
+
+3. Conecte o tablet via USB e aceite o popup de autorizacao.
+
+4. Na aba "Configurar Tablet", escolha o APK e clique em
+   "Instalar e Configurar Tablet".
+
+
+ARQUIVOS DESTA PASTA
+----------------------
+gestor_escolar_gui.py  -> codigo fonte do programa
+build_exe.bat          -> gera o .exe (rodar uma vez)
+LEIA_PRIMEIRO.txt       -> este arquivo
+
+Depois de gerar o .exe, voce so precisa levar o arquivo
+"dist\GestorEscolar_Configurador.exe" para onde for usar — os outros
+arquivos ficam so aqui na pasta de desenvolvimento.
