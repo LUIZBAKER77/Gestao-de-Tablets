@@ -40,7 +40,7 @@ Requisitos: Android Studio (ou JDK 17), Android SDK 35. `minSdk` 26.
 
 O APK sai em `app/build/outputs/apk/debug/`.
 
-O workflow `.github/workflows/build-release.yml` gera o APK de release assinado a cada push na `main`. A keystore e as senhas ficam em GitHub Secrets (`KEYSTORE_BASE64`, `KEYSTORE_PASSWORD`, `KEY_ALIAS`, `KEY_PASSWORD`) e nunca no repositório.
+Os binários prontos (APK assinado e `GestorEscolar_Configurador.exe`) ficam na aba [Releases](../../releases). O workflow `.github/workflows/build-release.yml` os gera a cada push na `main` e publica uma release quando é criada uma tag `v*` (por exemplo `v1.1`). A keystore e as senhas ficam em GitHub Secrets (`KEYSTORE_BASE64`, `KEYSTORE_PASSWORD`, `KEY_ALIAS`, `KEY_PASSWORD`) e nunca no repositório.
 
 ## Preparando um tablet
 
