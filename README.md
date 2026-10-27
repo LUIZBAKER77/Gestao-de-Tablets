@@ -1,5 +1,8 @@
 # Gestão de Tablets
 
+[![Build](https://github.com/LUIZBAKER77/Gestao-de-Tablets/actions/workflows/build-release.yml/badge.svg)](https://github.com/LUIZBAKER77/Gestao-de-Tablets/actions/workflows/build-release.yml)
+[![Licença: MIT](https://img.shields.io/badge/licen%C3%A7a-MIT-blue.svg)](LICENSE)
+
 App Android (Kotlin) para transformar tablets comuns em aparelhos de uso escolar: o aluno só vê os apps liberados pela escola, não consegue mexer nas configurações nem colocar senha no aparelho, e o administrador controla tudo por um painel protegido por senha.
 
 O app roda como **Device Owner**, então usa as APIs de `DevicePolicyManager` diretamente, sem MDM pago.
@@ -29,6 +32,10 @@ app/src/main/java/com/escola/tabletmanager/
 GestorEscolarTool/                        configurador para Windows (Python)
 docs/comandos-adb.md                      comandos de preparação e diagnóstico
 ```
+
+## Status
+
+Este repositório traz a versão 1.1 do app, usada como base pública. Uma versão mais nova está em fase de testes em tablets reais e entra aqui quando for validada; por isso ainda não há release publicada.
 
 ## Build
 
