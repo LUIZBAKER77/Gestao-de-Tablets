@@ -48,6 +48,11 @@ object AutoUpdater {
             val apkUrl = obj.getString("apkUrl")
             val currentCode = ctx.packageManager.getPackageInfo(ctx.packageName, 0).longVersionCode.toInt()
 
+            if (!apkUrl.startsWith("https://")) {
+                Log.w(TAG, "apkUrl ignorada: somente HTTPS e permitido")
+                return
+            }
+
             Log.i(TAG, "Versao atual=$currentCode disponivel=$latestCode")
             if (latestCode > currentCode) {
                 Log.i(TAG, "Atualizando...")
@@ -79,7 +84,12 @@ object AutoUpdater {
             FileOutputStream(file).use { out ->
                 conn.inputStream.copyTo(out)
             }
+            val finalProtocol = conn.url.protocol
             conn.disconnect()
+            if (finalProtocol != "https") {
+                file.delete()
+                return null
+            }
             file.absolutePath
         } catch (e: Exception) { null }
     }

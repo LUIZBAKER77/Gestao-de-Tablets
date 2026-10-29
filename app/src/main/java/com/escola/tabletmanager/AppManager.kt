@@ -9,6 +9,9 @@ import android.os.UserManager
 import android.provider.Settings
 import android.util.Log
 import java.security.MessageDigest
+import java.security.SecureRandom
+import javax.crypto.SecretKeyFactory
+import javax.crypto.spec.PBEKeySpec
 
 data class AppInfo(
     val packageName: String,
@@ -152,14 +155,55 @@ object AppManager {
     }
 
     fun setPassword(ctx: Context, password: String) {
-        prefs(ctx).edit().putString(KEY_HASH, sha256(password)).putBoolean(KEY_PASS, true).apply()
+        prefs(ctx).edit().putString(KEY_HASH, hashPassword(password)).putBoolean(KEY_PASS, true).apply()
     }
 
     fun checkPassword(ctx: Context, password: String): Boolean {
-        return sha256(password) == (prefs(ctx).getString(KEY_HASH, "") ?: "")
+        val stored = prefs(ctx).getString(KEY_HASH, "") ?: ""
+        if (stored.startsWith(PBKDF2_PREFIX)) {
+            val parts = stored.split('$')
+            if (parts.size != 4) return false
+            val iterations = parts[1].toIntOrNull() ?: return false
+            val salt = hexToBytes(parts[2]) ?: return false
+            val expected = hexToBytes(parts[3]) ?: return false
+            return MessageDigest.isEqual(pbkdf2(password, salt, iterations), expected)
+        }
+        // Hash legado (SHA-256 sem salt): aceita uma vez e regrava no formato novo.
+        if (stored.isNotEmpty() &&
+            MessageDigest.isEqual(legacySha256(password).toByteArray(), stored.toByteArray())
+        ) {
+            setPassword(ctx, password)
+            return true
+        }
+        return false
     }
 
-    private fun sha256(s: String): String {
+    private const val PBKDF2_PREFIX = "pbkdf2\$"
+    private const val PBKDF2_ITERATIONS = 120_000
+
+    private fun hashPassword(password: String): String {
+        val salt = ByteArray(16).also { SecureRandom().nextBytes(it) }
+        val hash = pbkdf2(password, salt, PBKDF2_ITERATIONS)
+        return "${PBKDF2_PREFIX}$PBKDF2_ITERATIONS\$${bytesToHex(salt)}\$${bytesToHex(hash)}"
+    }
+
+    private fun pbkdf2(password: String, salt: ByteArray, iterations: Int): ByteArray {
+        val spec = PBEKeySpec(password.toCharArray(), salt, iterations, 256)
+        return SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1").generateSecret(spec).encoded
+    }
+
+    private fun bytesToHex(b: ByteArray) = b.joinToString("") { "%02x".format(it) }
+
+    private fun hexToBytes(s: String): ByteArray? {
+        if (s.length % 2 != 0) return null
+        return try {
+            ByteArray(s.length / 2) { s.substring(it * 2, it * 2 + 2).toInt(16).toByte() }
+        } catch (_: NumberFormatException) {
+            null
+        }
+    }
+
+    private fun legacySha256(s: String): String {
         return MessageDigest.getInstance("SHA-256")
             .digest(s.toByteArray())
             .joinToString("") { "%02x".format(it) }
